@@ -211,6 +211,7 @@ const handleDelete = async (id: string) => {
 
 const handleUpdate = async (id: string) => {
   await $http.patch(`/songs/updateSong/${state.id}`, {
+    id: state.id,
     name: state.name,
     author: state.author,
     album: state.album,
@@ -218,8 +219,13 @@ const handleUpdate = async (id: string) => {
     songTextTitle: state.songTextTitle,
     songTextDesc: state.songTextDesc,
     release: state.release
-  }
-
+  },
+  songs.value = songs.value.map((song) => {
+    if (song.id === state.id) {
+      return { ...song, ...state }
+    }
+    return song
+  })
   )
   // songs.value = songs.value.filter(song => song.id !== id)
 
